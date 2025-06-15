@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife Planner Pro & FitBot Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Planner Sidebar -->
+    <nav class="sidebar">
+        <h2>FitLife Pro</h2>
+        <nav class="nav">
+            <button data-section="workout">🏋️ Workout</button>
+            <button data-section="meal">🍏 Nutrition</button>
+            <button data-section="progress">📈 Progress</button>
+        </nav>
+    </nav>
+
+    <!-- Planner Main Content Area -->
+    <div class="main-content">
+        <!-- Workout Section -->
+        <div id="workout" class="section active">
+            <!-- Container for Today's Plan and Chart -->
+            <div class="top-layout-container">
+                <!-- Today's Workout Plan Section -->
+                <div id="todaysWorkoutPlan" class="card today-plan-card">
+                    <h3>Today's Plan (<span id="todayDayName"></span>)</h3>
+                    <div id="todaysWorkoutContent">
+                        <p><em>Loading today's plan...</em></p>
+                    </div>
+                </div>
+                
+                <!-- Chart Section -->
+                <div class="card chart-container">
+                    <h3>Weekly Activity (Completed Minutes)</h3>
+                    <div id="chartWorkoutDetail" class="chart-detail-popup">Click a bar...</div>
+                    <div class="chart" id="workoutChart"></div>
+                </div>
+            </div>
+            
+            <!-- Form Section -->
+            <div class="card form">
+                <h3 id="formTitle">Add Exercise</h3>
+                <form id="workoutForm">
+                    <input type="hidden" id="editWorkoutId">
+                    <div class="form-group">
+                        <label for="weekdaySelect">Weekday:</label>
+                        <select id="weekdaySelect" required>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exerciseName">Exercise Name:</label>
+                        <input type="text" id="exerciseName" placeholder="e.g., Bench Press" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exerciseDuration">Duration (minutes):</label>
+                        <input type="number" id="exerciseDuration" placeholder="e.g., 30" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exerciseSets">Sets/Reps:</label>
+                        <input type="text" id="exerciseSets" placeholder="e.g., 3 sets of 10 reps" required>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="submit" id="saveWorkoutBtn" class="btn btn-primary">Add Exercise</button>
+                        <button type="button" id="cancelEditWorkoutBtn" class="btn btn-secondary" style="display: none;">Cancel Edit</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Weekly Workouts Accordion Section -->
+            <div id="weeklyWorkouts"></div>
+        </div> <!-- END of #workout section -->
+
+        <!-- Meal Section -->
+        <div id="meal" class="section">
+            <div class="card form">
+                <h3>Log Meal</h3>
+                <form id="mealForm">
+                    <input type="hidden" id="editMealId">
+                    <div class="form-group">
+                        <label for="mealName">Meal Name:</label>
+                        <input type="text" id="mealName" placeholder="e.g., Chicken Salad" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mealCalories">Calories:</label>
+                        <input type="number" id="mealCalories" placeholder="e.g., 450" min="0" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mealProtein">Protein (g):</label>
+                        <input type="number" id="mealProtein" placeholder="e.g., 30" min="0" step="0.1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mealDate">Date:</label>
+                        <input type="date" id="mealDate" required>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="submit" id="saveMealBtn" class="btn btn-primary">Add Meal</button>
+                        <button type="button" id="cancelEditMealBtn" class="btn btn-secondary" style="display: none;">Cancel Edit</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card">
+                <h3>Meal Log</h3>
+                <div id="mealEntries"></div>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div id="progress" class="section">
+            <div class="card">
+                <h2>Progress Overview</h2>
+                <div id="progressStats"></div>
+            </div>
+            
+            <div class="card chart-container">
+                <h3>Workout Minutes This Week</h3>
+                <div id="chartProgressDetail" class="chart-detail-popup">Click a bar...</div>
+                <div class="chart" id="progressWorkoutChart"></div>
+            </div>
+        </div>
+    </div> <!-- END of .main-content -->
+
+    <!-- Chatbot HTML Elements (Positioned Fixed) -->
+    <button id="chat-toggle-button" title="Open FitBot Assistant">💪</button>
+
+    <div id="chat-widget">
+        <div id="chat-header">
+            <span>FitBot Assistant</span>
+            <button id="close-chat" title="Close Chat">✕</button>
+        </div>
+        <div id="chat-body">
+            <!-- Initial Bot Message -->
+            <div class="bot-message message">
+                Hello! I'm FitBot. How can I help you with your fitness goals today? Ask me about workout plans, diet tips, or anything fitness-related!
+            </div>
+            <!-- Dynamic Messages Appear Here -->
+        </div>
+        <div id="chat-input-area">
+            <textarea id="userInput" placeholder="Ask FitBot..." rows="1"></textarea>
+            <button id="send-button" title="Send Message">➤</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
