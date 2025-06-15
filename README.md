@@ -2,8 +2,8 @@
 
 FitLife Planner Pro is a powerful web application that combines workout and nutrition planning with a friendly fitness chatbot assistant — FitBot — to help users stay on track with their health and body transformation goals.
 
-🔥 Live Preview (optional)
-[Add a live link here if deployed]
+🔥 Live Preview 
+https://shashank9048.github.io/FitLife-Planner-Pro-FitBot-Assistant/
 
 ✨ Features
 📅 Workout Planner
